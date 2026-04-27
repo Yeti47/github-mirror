@@ -1,5 +1,5 @@
 # Mirror data — never commit repository backups
-mirror/
+/mirror/
 
 # Compiled binary
 /github-mirror
