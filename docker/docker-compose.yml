@@ -1,0 +1,35 @@
+services:
+  github-mirror:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    image: github-mirror:latest
+    restart: unless-stopped
+
+    env_file:
+      - ../.env
+
+    volumes:
+      # Bind-mount a host directory to persist the bare mirror clones.
+      - ../mirror:/data
+      # Managed volume for the sync-protocol SQLite DB. Kept off the host
+      # so its lock files and WAL files don't pollute the user's tree.
+      - state:/var/lib/github-mirror
+
+    # Harden the container: read-only root filesystem with a tmpfs for /tmp.
+    read_only: true
+    tmpfs:
+      - /tmp
+
+    # Run the daemon's --health subcommand in a separate process to evaluate
+    # the most recent SyncProtocol. start_period gives the first cycle time
+    # to complete before the container is marked unhealthy.
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/github-mirror", "--health"]
+      interval: 5m
+      timeout: 30s
+      retries: 2
+      start_period: 10m
+
+volumes:
+  state:

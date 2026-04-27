@@ -1,0 +1,36 @@
+# Mirror data — never commit repository backups
+mirror/
+
+# Compiled binary
+github-mirror
+
+# Go build & test artefacts
+*.test
+*.out
+coverage.html
+*.prof
+dist/
+vendor/
+
+# Go workspace (multi-module setups)
+go.work
+go.work.sum
+
+# Environment files — protect secrets
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Editor / OS noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# SQLite state 
+state.db
