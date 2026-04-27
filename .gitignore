@@ -2,7 +2,7 @@
 mirror/
 
 # Compiled binary
-github-mirror
+/github-mirror
 
 # Go build & test artefacts
 *.test
